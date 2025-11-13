@@ -10,7 +10,13 @@ const SysteminfoContent = () => {
     w: 0,
     h: 0,
   });
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const storedTheme = localStorage.getItem("isDarkMode");
+      return storedTheme === "true";
+    }
+    return false;
+  });
 
   useEffect(() => {
     const update = () => {
@@ -33,6 +39,7 @@ const SysteminfoContent = () => {
     } else {
       root.classList.remove("dark");
     }
+    localStorage.setItem("isDarkMode", isDarkMode.toString());
   }, [isDarkMode]);
 
   return (
