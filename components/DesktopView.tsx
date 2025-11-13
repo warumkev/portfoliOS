@@ -107,7 +107,7 @@ const Window: React.FC<WindowProps> = ({
         y = Math.max(0, Math.min(y, viewportHeight - height));
         onDrag(winState.id, { x, y });
       }}
-      className="absolute bg-background backdrop-blur-xl border border-border rounded-lg shadow-2xl flex flex-col overflow-hidden"
+      className="absolute backdrop-blur-xl border border-border rounded-lg shadow-2xl flex flex-col overflow-hidden"
       style={{
         x: winState.position.x,
         y: winState.position.y,
@@ -361,13 +361,13 @@ export default function DesktopView() {
       try {
         ctx.stroke();
         ctx.closePath();
-      } catch (e) {
-        /* ignore */
+      } catch (error) {
+        console.warn("Error finalizing drawing path:", error);
       }
       try {
         canvas.releasePointerCapture?.(ev.pointerId);
-      } catch (e) {
-        /* ignore */
+      } catch (error) {
+        console.warn("Error releasing pointer capture:", error);
       }
       ev.preventDefault();
     };
@@ -536,13 +536,13 @@ export default function DesktopView() {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              const presets = [2, 4, 8, 12, 20];
+              const presets = [4, 8, 12, 20, 40];
               const idx = presets.indexOf(penSizeRef.current);
               const next = presets[(idx + 1) % presets.length];
               setPenSize(next);
               penSizeRef.current = next;
             }}
-            className="w-9 h-9 rounded-md flex items-center justify-center border border-border"
+            className="w-9 h-9 text-primary rounded-md flex items-center justify-center border border-border"
             aria-label="Cycle pen size"
             title={`Pen size: ${penSize}px`}
           >

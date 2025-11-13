@@ -89,6 +89,7 @@ const PortfolioContent = () => {
               <p className="text-muted mb-2">{p.description}</p>
             </div>
             <div className="flex gap-2 flex-shrink-0">
+              {p.liveUrl && (
               <a
                 href={p.liveUrl}
                 target="_blank"
@@ -97,6 +98,7 @@ const PortfolioContent = () => {
               >
                 Live
               </a>
+              )}
               {p.githubUrl && (
                 <a
                   href={p.githubUrl}

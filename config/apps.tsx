@@ -6,7 +6,7 @@
 
 
 import { ReactNode } from 'react';
-import { User, Briefcase, Mail, NotebookText, CircuitBoard, Music } from 'lucide-react';
+import { User, Briefcase, Mail, CircuitBoard, Music } from 'lucide-react';
 
 
 // Modular section components
