@@ -44,18 +44,18 @@ const MobileLoginSplash: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
       className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background text-primary"
     >
       <div className="flex flex-col items-center gap-6 w-full text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight select-none">
+        <h1 className="text-xl font-medium tracking-tight select-none">
           portfoliOS
         </h1>
-        <span className="text-base font-mono tracking-wide select-none">
+        <span className="select-none">
           a web portfolio by Kevin Tamme
         </span>
         <a
           href="/safe-mode.html"
-          className="text-xs underline hover:text-primary transition-colors"
+          className="px-3 py-1 bg-primary text-secondary rounded hover:bg-muted hover:text-secondary transition"
           tabIndex={0}
         >
-          Safe Mode: Simple HTML version
+          Click here for Safe Mode
         </a>
       </div>
       <motion.div
@@ -82,7 +82,7 @@ const MobileLoginSplash: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
         transition={{ delay: 1.2 }}
         className="absolute bottom-6 left-0 w-full flex flex-col items-center gap-3 text-center"
       >
-        <span className="text-xs font-mono block mt-2">
+        <span className="block mt-2">
           © {new Date().getFullYear()} Kevin Tamme – portfoliOS
         </span>
       </motion.div>
@@ -141,7 +141,7 @@ export default function MobileView() {
         {!openApp && (
           <>
             <div className="w-full flex flex-col items-center mb-8 mt-8">
-              <span className="text-5xl font-extrabold text-primary tracking-tight drop-shadow-sm">
+              <span className="text-9xl font-medium text-primary tracking-tight drop-shadow-sm">
                 {time}
               </span>
             </div>

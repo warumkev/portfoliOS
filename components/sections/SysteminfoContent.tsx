@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CircuitBoard, Clock, Globe2, Monitor } from "lucide-react";
+import { CircuitBoard, Clock, Globe2, Monitor, Moon, Sun } from "lucide-react";
 
 /**
  * SysteminfoContent displays system and environment info, theme toggle, and some fun stats.
@@ -10,6 +10,8 @@ const SysteminfoContent = () => {
     w: 0,
     h: 0,
   });
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+
   useEffect(() => {
     const update = () => {
       setDate(new Date().toLocaleString());
@@ -23,6 +25,16 @@ const SysteminfoContent = () => {
       clearInterval(interval);
     };
   }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDarkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
   return (
     <div className="relative p-6 md:p-8 font-sans min-h-0 h-full w-full flex flex-col items-center justify-center shadow">
       <div className="flex items-center gap-4 mb-4">
@@ -40,7 +52,19 @@ const SysteminfoContent = () => {
         </span>
         <span className="text-xs text-muted">Last Update: 22.10.2025</span>
       </div>
-      {/* Theme toggle removed. */}
+      <button
+        onClick={() => setIsDarkMode(!isDarkMode)}
+        className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg bg-background hover:bg-background/25"
+      >
+        {isDarkMode ? (
+          <Sun size={20} className="text-primary" />
+        ) : (
+          <Moon size={20} className="text-primary" />
+        )}
+        <span className="text-primary">
+          {isDarkMode ? "Light Mode" : "Dark Mode"}
+        </span>
+      </button>
       <div className="mt-4 w-full space-y-3">
         <div className="flex items-center gap-3 border border-border rounded-lg px-4 py-3 bg-background hover:bg-background/25">
           <span className="">

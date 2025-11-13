@@ -29,12 +29,16 @@ const MusicPlayerContent = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 h-full flex flex-col items-center justify-center text-white min-h-0 w-full">
+    <div className="p-6 md:p-8 h-full flex flex-col justify-center items-center min-w-[220px] min-h-0 w-full">
       <div className="w-48 h-48 md:w-56 md:h-56 rounded-xl bg-background hover:bg-background/25 shadow-lg mb-6 flex items-center justify-center">
         <Music size={64} className="text-primary" />
       </div>
-      <h3 className="text-lg font-bold text-primary">Lofi Chill</h3>
-      <p className="text-sm text-muted mb-6">by ilovemusic</p>
+      <div className="flex flex-col items-start gap-6 mb-6">
+        <div className="flex-1 text-left">
+          <a className="font-medium mb-1">Lofi Chill.</a>
+          <p className="text-muted">by <a href="https://ilovemusic.de" target="_blank" rel="noopener noreferrer">ilovemusic.</a></p>
+        </div>
+      </div>
       <button
         onClick={togglePlayPause}
         className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white hover:bg-background hover:text-primary transition"
@@ -42,7 +46,7 @@ const MusicPlayerContent = () => {
       >
         {isPlaying ? <Pause size={32} /> : <Play size={32} />}
       </button>
-      <div className="w-full max-w-xs mt-6 flex items-center gap-3 hidden md:flex">
+      <div className="w-full max-w-xs mt-6 flex justify-center items-center gap-3 hidden md:flex">
         <VolumeX size={20} className="text-muted" aria-hidden="true" />
         <input
           type="range"

@@ -107,7 +107,7 @@ const Window: React.FC<WindowProps> = ({
         y = Math.max(0, Math.min(y, viewportHeight - height));
         onDrag(winState.id, { x, y });
       }}
-      className="absolute backdrop-blur-xl border border-border rounded-lg shadow-2xl flex flex-col overflow-hidden"
+      className="absolute bg-background backdrop-blur-xl border border-border rounded-lg shadow-2xl flex flex-col overflow-hidden"
       style={{
         x: winState.position.x,
         y: winState.position.y,
@@ -131,7 +131,7 @@ const Window: React.FC<WindowProps> = ({
           <span className="text-primary">{config.icon}</span>
           <span
             id={`window-title-${winState.id}`}
-            className="text-sm text-primary font-medium"
+            className="text-primary font-medium"
           >
             {config.title}
           </span>
@@ -204,7 +204,7 @@ const DockIcon: React.FC<{
         whileHover={{ scale: 1.1, y: -8 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => onClick(id)}
-        className="backdrop-blur-lg p-3 rounded-xl border border-border transition-colors"
+        className="backdrop-blur-lg p-3 bg-background rounded-xl border border-border transition-colors"
         aria-label={`Öffne ${config.title}`}
       >
         <span className="text-primary">{config.icon}</span>
@@ -252,9 +252,9 @@ export default function DesktopView() {
     pointerId: null,
   });
   // pen settings (refs used inside canvas handlers for latest values)
-  const penColorRef = useRef<string>("#000000");
+  const penColorRef = useRef<string>("#a9a9a9");
   const penSizeRef = useRef<number>(2);
-  const [penColor, setPenColor] = useState<string>("#000000");
+  const [penColor, setPenColor] = useState<string>("#a9a9a9");
   const [penSize, setPenSize] = useState<number>(2);
 
   useEffect(() => {
@@ -284,10 +284,13 @@ export default function DesktopView() {
       canvas.style.height = `${h}px`;
       ctx.resetTransform?.();
       ctx.scale(dpr, dpr);
-      // fill white background
-      ctx.fillStyle = "#ffffff";
+
+      // Set background color based on theme
+      const isDarkMode = document.documentElement.classList.contains("dark");
+      ctx.fillStyle = isDarkMode ? "#000000" : "#ffffff"; // Black for dark mode, white for light mode
       ctx.fillRect(0, 0, w, h);
-      // set default drawing style (will be overridden by current pen settings on draw)
+
+      // Set default drawing style
       ctx.lineJoin = "round";
       ctx.lineCap = "round";
       ctx.lineWidth = penSizeRef.current;
@@ -374,12 +377,19 @@ export default function DesktopView() {
     window.addEventListener("pointerup", endDrawing);
     window.addEventListener("pointercancel", endDrawing);
 
+    // Listen for theme changes
+    const observer = new MutationObserver(() => {
+      resize();
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
     return () => {
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("pointerdown", onPointerDown);
       canvas.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", endDrawing);
       window.removeEventListener("pointercancel", endDrawing);
+      observer.disconnect();
     };
   }, []);
 
@@ -462,6 +472,22 @@ export default function DesktopView() {
       };
     });
 
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const rect = canvas.getBoundingClientRect();
+    ctx.resetTransform?.();
+    const dpr = window.devicePixelRatio || 1;
+    ctx.scale(dpr, dpr);
+
+    // Set background color based on theme
+    const isDarkMode = document.documentElement.classList.contains("dark");
+    ctx.fillStyle = isDarkMode ? "#000000" : "#ffffff"; // Black for dark mode, white for light mode
+    ctx.fillRect(0, 0, rect.width, rect.height);
+  };
+
   return (
     <main
       ref={constraintsRef}
@@ -473,6 +499,7 @@ export default function DesktopView() {
         className="absolute inset-0 w-full h-full z-0 touch-none"
         aria-hidden="true"
       />
+
       {/* Floating pen toolbar (draggable, single row, less transparent) */}
       <motion.div
         drag
@@ -482,7 +509,7 @@ export default function DesktopView() {
         whileDrag={{ scale: 0.995 }}
         className="absolute right-4 top-8 z-40"
       >
-        <div className="flex items-center gap-2 p-2 bg-background/50 backdrop-blur-sm border border-border rounded-lg shadow-md">
+        <div className="flex items-center gap-2 p-2 bg-background backdrop-blur-sm border border-border rounded-lg shadow-md">
           {/* Color swatch button */}
           <button
             className="w-9 h-9 rounded-md flex items-center justify-center border border-border relative overflow-hidden"
@@ -529,16 +556,7 @@ export default function DesktopView() {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              const canvas = canvasRef.current;
-              if (!canvas) return;
-              const ctx = canvas.getContext("2d");
-              if (!ctx) return;
-              const rect = canvas.getBoundingClientRect();
-              ctx.resetTransform?.();
-              const dpr = window.devicePixelRatio || 1;
-              ctx.scale(dpr, dpr);
-              ctx.fillStyle = "#ffffff";
-              ctx.fillRect(0, 0, rect.width, rect.height);
+              clearCanvas();
             }}
             className="w-9 h-9 rounded-md flex items-center justify-center border border-border bg-destructive/50 text-primary"
             aria-label="Clear canvas"
@@ -576,7 +594,7 @@ export default function DesktopView() {
             damping: 30,
             delay: 0.5,
           }}
-          className="flex items-end gap-3 p-3 backdrop-blur-lg border border-border rounded-2xl"
+          className="flex bg-background items-end gap-3 p-3 backdrop-blur-lg border border-border rounded-2xl"
         >
           {Object.entries(APP_CONFIG).map(([id, config]) => (
             <DockIcon

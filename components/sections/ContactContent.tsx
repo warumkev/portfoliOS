@@ -91,17 +91,12 @@ const ContactContent = () => {
 
   return (
     <div className="p-6 md:p-8 font-sans text-primary h-full min-h-0 w-full">
-      <h2 className="text-2xl font-bold mb-4 text-center">Any questions?</h2>
-      <p className="text-sm text-muted mb-6 px-3">
-        Have a project in mind or just want to say hello? Fill out the form
-        below and I&apos;ll get back to you as soon as possible.
-      </p>
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-lg md:max-w-none space-y-4 mx-auto"
       >
         <div>
-          <label htmlFor="name" className="text-sm font-medium">
+          <label htmlFor="name" className="font-medium">
             Name
           </label>
           <input
@@ -113,7 +108,7 @@ const ContactContent = () => {
           />
         </div>
         <div>
-          <label htmlFor="email" className="text-sm font-medium ">
+          <label htmlFor="email" className="font-medium ">
             E-Mail
           </label>
           <input
@@ -125,7 +120,7 @@ const ContactContent = () => {
           />
         </div>
         <div>
-          <label htmlFor="message" className="text-sm font-medium ">
+          <label htmlFor="message" className="font-medium ">
             Message
           </label>
           <textarea
@@ -140,7 +135,7 @@ const ContactContent = () => {
           <button
             type="submit"
             disabled={status === "sending"}
-            className="w-full px-6 py-2.5 bg-primary text-secondary font-semibold rounded-lg shadow-md hover:bg-secondary hover:text-primary transition-all disabled:bg-neutral-200 disabled:cursor-not-allowed"
+            className="w-full px-6 py-2.5 bg-primary text-secondary font-medium rounded-lg shadow-md hover:bg-muted hover:text-secondary transition-all disabled:bg-neutral-200 disabled:cursor-not-allowed"
           >
             {status === "sending" ? "Send..." : "Send Message"}
           </button>
