@@ -10,7 +10,7 @@ Live: https://www.kevintamme.com · Plain HTML fallback: `/safe-mode.html`
 
 - Next.js 15 (App Router) · React 19 · TypeScript
 - Tailwind CSS 4 with design tokens in `app/globals.css`
-- Motion for animation, Lucide for icons, Resend for the contact form
+- Motion for animation, Lucide for icons
 - Vitest for the pure logic in `lib/`
 
 ## Structure
@@ -37,4 +37,3 @@ npm run lint
 npm run build
 ```
 
-The contact form needs `RESEND_API_KEY` in `.env.local`; without it the API responds with 503.

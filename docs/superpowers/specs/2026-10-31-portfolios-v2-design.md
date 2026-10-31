@@ -32,7 +32,7 @@ app/
   layout.tsx            Fonts, Metadata, No-Flash-Theme-Script, Provider
   page.tsx              Server Component: lädt Projekte (fs) → <OS projects />
   opengraph-image.tsx   generiertes OG-Bild (next/og)
-  api/projects|contact  Route Handler (App Router), ersetzt pages/api
+  api/projects          Route Handler (App Router), ersetzt pages/api
 components/
   os/OS.tsx             Client: Viewport-Switch, Provider-Stack
   os/desktop/*          DesktopView, MenuBar, Window, Dock, Wallpaper, DrawingCanvas, CommandPalette
@@ -94,3 +94,6 @@ Verifikation: `npm run typecheck`, `npm run lint`, `npm run build`, headless Chr
 `react-markdown`, `gray-matter`, `components/magicui/*`, `BlogContent` + `pages/api/notes` (Notes war
 bereits deaktiviert; die Markdown-Inhalte unter `features/notes/content` bleiben erhalten),
 `lib/linkPreview.ts` (ungenutzt), Font `Inter` (ungenutzt).
+
+Nachträglich (31.10.2026): Kontaktformular samt `app/api/contact` und `resend` entfernt. Die Mail-App
+zeigt stattdessen die direkten Kanäle (E-Mail, GitHub, LinkedIn); kein Server-Secret mehr nötig.

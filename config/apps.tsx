@@ -67,12 +67,12 @@ export const APPS: AppDefinition[] = [
   {
     id: "contact",
     title: "Mail",
-    summary: "Send me a message",
+    summary: "Ways to reach me",
     icon: Mail,
     tint: "#0ea5e9",
     component: ContactApp,
     keywords: ["contact", "email", "message", "hire"],
-    window: { defaultSize: { width: 460, height: 600 }, minSize: MIN },
+    window: { defaultSize: { width: 460, height: 480 }, minSize: MIN },
     mobileDock: true,
   },
   {
