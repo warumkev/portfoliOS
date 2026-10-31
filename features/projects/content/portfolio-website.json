@@ -1,5 +1,11 @@
 {
   "title": "Portfolio Website",
   "description": "An interactive, OS-themed portfolio built with Next.js, TypeScript, and Framer Motion, featuring responsive desktop and mobile interfaces.",
-  "githubUrl": "https://github.com/warumkev/portfolio"
+  "githubUrl": "https://github.com/warumkev/portfolio",
+  "tags": [
+    "Next.js",
+    "TypeScript",
+    "Framer Motion"
+  ],
+  "kind": "web"
 }

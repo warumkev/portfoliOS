@@ -1,25 +1,22 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { PROFILE } from "@/config/profile";
+import { MusicProvider } from "@/lib/music";
+import { PreferencesProvider } from "@/lib/preferences";
+import { THEME_INIT_SCRIPT } from "@/lib/theme-script";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-import { Inter } from "next/font/google";
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.kevintamme.com"),
+  metadataBase: new URL(PROFILE.links.site),
   title: {
     default: "Portfolio | Kevin Tamme - Frontend Entwickler Frankfurt, React, UI/UX, TypeScript",
     template: "%s | Kevin Tamme - Frontend Entwickler Frankfurt",
   },
-  description: "Portfolio von Kevin Tamme, Frontend Entwickler aus Frankfurt am Main. Spezialisiert auf React, Next.js, TypeScript und UI/UX Design. Entdecken Sie Projekte, Blog, Learnings und Kontaktmöglichkeiten.",
+  description:
+    "Portfolio von Kevin Tamme, Frontend Entwickler aus Frankfurt am Main. Spezialisiert auf React, Next.js, TypeScript und UI/UX Design. Entdecken Sie Projekte, Blog, Learnings und Kontaktmöglichkeiten.",
   keywords: [
     "Frontend Entwickler Frankfurt",
     "React Entwickler",
@@ -29,34 +26,24 @@ export const metadata: Metadata = {
     "Webentwicklung",
     "Kevin Tamme",
     "Portfolio",
-    "Blog",
     "Projekte",
     "Kontakt",
     "Web Developer Germany",
-    "Modern Web Design"
+    "Modern Web Design",
   ],
-  authors: [{ name: "Kevin Tamme" }],
-  creator: "Kevin Tamme",
+  authors: [{ name: PROFILE.name }],
+  creator: PROFILE.name,
   openGraph: {
     type: "website",
     locale: "de_DE",
-    url: "https://www.kevintamme.com",
+    url: PROFILE.links.site,
     title: "PortfoliOS | Kevin Tamme - Frontend-Entwickler",
     description: "Ein interaktives Portfolio im Stil eines Betriebssystems.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "PortfoliOS - Kevin Tamme",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "PortfoliOS | Kevin Tamme - Frontend-Entwickler",
     description: "Ein interaktives Portfolio im Stil eines Betriebssystems.",
-    images: ["/og-image.png"],
     creator: "@warumkev",
   },
   robots: {
@@ -65,31 +52,42 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f1f2f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#17181c" },
+  ],
+};
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="de">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased relative h-full`}
-      >
-
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} h-full`}>
+        <PreferencesProvider>
+          <MusicProvider>{children}</MusicProvider>
+        </PreferencesProvider>
+        <noscript>
+          <div className="fixed inset-x-0 bottom-0 z-[200] bg-surface p-4 text-center text-sm">
+            This portfolio needs JavaScript.{" "}
+            <a href="/safe-mode.html" className="underline">
+              Open the plain HTML version
+            </a>
+            .
+          </div>
+        </noscript>
       </body>
     </html>
   );

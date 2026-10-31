@@ -110,9 +110,8 @@
           <span>${p.title}</span>
         </div>
         <div>${p.description}</div>
-        <a href="${p.liveUrl}" target="_blank">Live</a>
-        <br />
-        <a href="${p.githubUrl}" target="_blank">Repository</a>
+        ${p.liveUrl ? `<a href="${p.liveUrl}" target="_blank" rel="noopener">Live</a><br />` : ""}
+        ${p.githubUrl ? `<a href="${p.githubUrl}" target="_blank" rel="noopener">Repository</a>` : ""}
       `;
             list.appendChild(card);
           });

@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# portfoliOS
 
-## Getting Started
+An interactive portfolio that behaves like an operating system. Desktop visitors get
+windows, a dock, a menu bar, a command palette and a whiteboard; phones get a lock
+screen, a home screen and full-screen apps. Same six apps, same content, two surfaces.
 
-First, run the development server:
+Live: https://www.kevintamme.com · Plain HTML fallback: `/safe-mode.html`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Stack
+
+- Next.js 15 (App Router) · React 19 · TypeScript
+- Tailwind CSS 4 with design tokens in `app/globals.css`
+- Motion for animation, Lucide for icons, Resend for the contact form
+- Vitest for the pure logic in `lib/`
+
+## Structure
+
+```
+app/            layout, page (server-side project loading), OG image, API routes
+components/os   OS shell: desktop/ (windows, dock, menu bar, palette, canvas) and mobile/
+components/apps README, Projects, Mail, Terminal, Music, Settings
+config/         app registry (config/apps.tsx) and personal data (config/profile.ts)
+lib/            pure logic: window manager, terminal, strokes, command search, preferences
+features/       content: project JSON files (and archived notes)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Adding an app: create a component in `components/apps`, register it in `config/apps.tsx`.
+It shows up in the dock, the home screen, the command palette and the terminal automatically.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Develop
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm test           # unit tests for lib/
+npm run lint
+npm run build
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The contact form needs `RESEND_API_KEY` in `.env.local`; without it the API responds with 503.

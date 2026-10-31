@@ -1,5 +1,11 @@
 {
   "title": "Congrads Agency",
   "description": "Interactive website for Congrads Agency, built with Next.js, React, and Tailwind CSS. Modern design, responsive, and SEO-optimized.",
-  "liveUrl": "https://www.congrads.de"
+  "liveUrl": "https://www.congrads.de",
+  "tags": [
+    "Next.js",
+    "React",
+    "Tailwind CSS"
+  ],
+  "kind": "web"
 }

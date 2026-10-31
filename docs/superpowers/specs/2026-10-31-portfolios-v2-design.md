@@ -54,7 +54,8 @@ Alle Apps werden auf Desktop und Mobile aus derselben Registry gerendert.
 ## 4. Desktop
 
 - **Menüleiste** oben (28 px): Wordmark, aktiver App-Name, rechts Uhr, Now-Playing-Hinweis, Theme-Toggle, Suche (⌘K).
-- **Fenster**: Hintergrund `surface/85` + Blur, Traffic-Light-Buttons (schließen, minimieren, maximieren),
+- **Fenster**: Titelleiste frosted (`surface/82` + Blur), Inhalt opak (sonst geistert Text überlappender
+  Fenster durch), Traffic-Light-Buttons (schließen, minimieren, maximieren),
   Doppelklick auf Titel = maximieren, aktives Fenster mit stärkerem Schatten, inaktive leicht gedimmt.
   Startposition: erstes Fenster zentriert im Arbeitsbereich, weitere kaskadiert um 32 px.
   Positionen werden bei Viewport-Resize geklemmt.
@@ -62,13 +63,14 @@ Alle Apps werden auf Desktop und Mobile aus derselben Registry gerendert.
   Klick auf aktives Fenster minimiert es (macOS-Verhalten), Tooltip.
 - **Command Palette** (⌘K / Ctrl+K): Apps öffnen, Projekte öffnen, Aktionen (Theme, Canvas leeren, Safe Mode, GitHub).
 - **Zeichnen**: Canvas transparent über CSS-Wallpaper; Striche als Daten gespeichert und bei Resize/Theme
-  neu gezeichnet; Palette am linken Rand mit Farbvorgaben, drei Stärken, Radierer, Undo, Leeren.
+  neu gezeichnet; Palette am linken Rand (unterhalb der Fenster-Ebene, einklappbar) mit Farbvorgaben,
+  drei Stärken, Radierer, Undo, Leeren.
 - **Tastatur**: ⌘W/Ctrl+W schließt Fokus-Fenster, Esc schließt Palette.
 
 ## 5. Mobile
 
 - **Lockscreen**: große Uhr, Datum, Wallpaper, Swipe-up (bleibt), Safe-Mode-Link.
-- **Statusleiste**: Uhr links, Theme-Toggle rechts; Safe-Area-Insets via `env()`.
+- **Statusleiste**: Uhr links, Theme-Toggle rechts; liegt über Lockscreen und App-Sheets; Safe-Area-Insets via `env()`.
 - **Homescreen**: Grid mit getönten App-Icons, Dock mit vier Apps unten.
 - **App-Sheet**: eigener Header (Titel, „Done“), Inhalt scrollbar, Home-Indicator schließt per Swipe.
 
@@ -82,8 +84,9 @@ Alle Apps werden auf Desktop und Mobile aus derselben Registry gerendert.
 
 ## 7. Tests
 
-Vitest für reine Logik: `windowManager`, `terminal`, `strokes`, `commandSearch`.
-Verifikation: `npm run lint`, `npm run build`, Sichtprüfung im Browser (Desktop 1440×900, Mobile 390×844).
+Vitest für reine Logik: `windowManager`, `terminal`, `strokes`, `commandSearch` (30 Tests).
+Verifikation: `npm run typecheck`, `npm run lint`, `npm run build`, headless Chrome-Durchlauf
+(Desktop 1440×900 und 1024×700, Mobile 390×844 mit Touch-Gesten) ohne Konsolenfehler.
 
 ## 8. Entfernt
 

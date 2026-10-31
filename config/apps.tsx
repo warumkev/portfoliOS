@@ -1,88 +1,121 @@
-// ...existing imports and declarations...
+import type { ComponentType } from "react";
+import {
+  Briefcase,
+  Mail,
+  Music,
+  Settings,
+  Terminal,
+  User,
+  type LucideIcon,
+} from "lucide-react";
+import type { WindowDefaults } from "@/lib/windowManager";
+import AboutApp from "@/components/apps/AboutApp";
+import ProjectsApp from "@/components/apps/ProjectsApp";
+import ContactApp from "@/components/apps/ContactApp";
+import TerminalApp from "@/components/apps/TerminalApp";
+import MusicApp from "@/components/apps/MusicApp";
+import SettingsApp from "@/components/apps/SettingsApp";
 
-// ...existing imports and declarations...
+export type AppId =
+  | "about"
+  | "projects"
+  | "contact"
+  | "terminal"
+  | "music"
+  | "settings";
 
-// ...existing code...
-
-
-import { ReactNode } from 'react';
-import { User, Briefcase, Mail, CircuitBoard, Music } from 'lucide-react';
-
-
-// Modular section components
-import AboutContent from '../components/sections/AboutContent';
-import PortfolioContent from '../components/sections/PortfolioContent';
-import dynamic from 'next/dynamic';
-const ContactContent = dynamic(() => import('../components/sections/ContactContent'), { ssr: false });
-const BlogContent = dynamic(() => import('../components/sections/BlogContent'), { ssr: false });
-const SysteminfoContent = dynamic(() => import('../components/sections/SysteminfoContent'), { ssr: false });
-const MusicPlayerContent = dynamic(() => import('../components/sections/MusicPlayerContent'), { ssr: false });
-
-
-// Declarations for app icons and content components
-export interface Project {
-    icon: ReactNode;
-    title: string;
-    description: string;
-    url: string;
+export interface AppDefinition {
+  id: AppId;
+  title: string;
+  /** Short line for tooltips and the command palette. */
+  summary: string;
+  icon: LucideIcon;
+  /** Icon tile background. */
+  tint: string;
+  component: ComponentType;
+  keywords: string[];
+  window: WindowDefaults;
+  /** Shown in the mobile dock. */
+  mobileDock?: boolean;
 }
 
-export interface AppConfig {
-    title: string;
-    icon: ReactNode;
-    content: ReactNode;
-    defaultSize: { width: number; height: number };
-    minSize?: { width: number; height: number };
-}
+const MIN = { width: 340, height: 360 };
 
-export interface BlogPost {
-    title: string;
-    date: string;
-    content: string;
-}
+export const APPS: AppDefinition[] = [
+  {
+    id: "about",
+    title: "README",
+    summary: "Who I am and how I work",
+    icon: User,
+    tint: "#5b6cff",
+    component: AboutApp,
+    keywords: ["about", "me", "bio", "profile", "kevin"],
+    window: { defaultSize: { width: 460, height: 660 }, minSize: MIN },
+    mobileDock: true,
+  },
+  {
+    id: "projects",
+    title: "Projects",
+    summary: "Apps and sites I built",
+    icon: Briefcase,
+    tint: "#f59e0b",
+    component: ProjectsApp,
+    keywords: ["portfolio", "work", "apps", "github"],
+    window: { defaultSize: { width: 580, height: 680 }, minSize: MIN },
+    mobileDock: true,
+  },
+  {
+    id: "contact",
+    title: "Mail",
+    summary: "Send me a message",
+    icon: Mail,
+    tint: "#0ea5e9",
+    component: ContactApp,
+    keywords: ["contact", "email", "message", "hire"],
+    window: { defaultSize: { width: 460, height: 600 }, minSize: MIN },
+    mobileDock: true,
+  },
+  {
+    id: "terminal",
+    title: "Terminal",
+    summary: "For people who prefer the keyboard",
+    icon: Terminal,
+    tint: "#27272a",
+    component: TerminalApp,
+    keywords: ["shell", "console", "cli", "commands"],
+    window: { defaultSize: { width: 680, height: 440 }, minSize: MIN },
+    mobileDock: true,
+  },
+  {
+    id: "music",
+    title: "Music",
+    summary: "Lofi radio while you browse",
+    icon: Music,
+    tint: "#f43f5e",
+    component: MusicApp,
+    keywords: ["radio", "lofi", "player", "audio"],
+    window: { defaultSize: { width: 380, height: 520 }, minSize: MIN },
+  },
+  {
+    id: "settings",
+    title: "Settings",
+    summary: "Theme, accent and system info",
+    icon: Settings,
+    tint: "#71717a",
+    component: SettingsApp,
+    keywords: ["preferences", "theme", "dark", "light", "accent", "system"],
+    window: { defaultSize: { width: 480, height: 640 }, minSize: MIN },
+  },
+];
 
-// App configuration for all window sections
-export const APP_CONFIG: Record<string, AppConfig> = {
-    about: {
-        title: 'README.md',
-        icon: <User size={20} />, // adjust icon as needed
-        content: <AboutContent />,
-        defaultSize: { width: 420, height: 600 },
-        minSize: { width: 320, height: 400 },
-    },
-    portfolio: {
-        title: 'Portfolio',
-        icon: <Briefcase size={20} />,
-        content: <PortfolioContent />,
-        defaultSize: { width: 520, height: 600 },
-        minSize: { width: 320, height: 400 },
-    },
-    contact: {
-        title: 'Mail',
-        icon: <Mail size={20} />,
-        content: <ContactContent />,
-        defaultSize: { width: 420, height: 600 },
-        minSize: { width: 320, height: 400 },
-    },
-    /*blog: {
-        title: 'Notizen',
-        icon: <NotebookText size={20} />,
-        content: <BlogContent />,
-        defaultSize: { width: 520, height: 600 },
-        minSize: { width: 320, height: 400 },
-    },*/
-    systeminfo: {
-        title: 'Settings',
-        icon: <CircuitBoard size={20} />,
-        content: <SysteminfoContent />,
-        defaultSize: { width: 420, height: 600 },
-        minSize: { width: 320, height: 400 },
-    },
-    music: {
-        title: 'Music',
-        icon: <Music size={20} />,
-        content: <MusicPlayerContent />,
-        defaultSize: { width: 420, height: 600 },
-        minSize: { width: 320, height: 400 },
-    },
-};
+export const APP_MAP: Record<AppId, AppDefinition> = Object.fromEntries(
+  APPS.map((app) => [app.id, app])
+) as Record<AppId, AppDefinition>;
+
+export const WINDOW_DEFAULTS: Record<string, WindowDefaults> = Object.fromEntries(
+  APPS.map((app) => [app.id, app.window])
+);
+
+export function getApp(id: string): AppDefinition | undefined {
+  return APP_MAP[id as AppId];
+}

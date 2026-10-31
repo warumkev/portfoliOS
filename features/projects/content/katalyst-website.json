@@ -2,5 +2,11 @@
   "title": "Katalyst",
   "description": "A frontend for the Katalyst AI tool, built with Next.js, TypeScript, and Tailwind CSS.",
   "liveUrl": "https://ketam-katalyst.vercel.app",
-  "githubUrl": "https://github.com/warumkev/katalyst"
+  "githubUrl": "https://github.com/warumkev/katalyst",
+  "tags": [
+    "Next.js",
+    "TypeScript",
+    "Tailwind CSS"
+  ],
+  "kind": "web"
 }
